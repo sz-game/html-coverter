@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart FAQ Formatter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .main-content {
+            padding: 30px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            border-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            font-size: 1.4em;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .icon {
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8em;
+        }
+
+        textarea, .output-area {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            border: 2px solid #dee2e6;
+            border-radius: 12px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            transition: all 0.3s ease;
+            resize: vertical;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .output-area {
+            background: #ffffff;
+            border: 2px solid #28a745;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            min-height: 300px;
+        }
+
+        .format-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .format-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .format-btn:active {
+            transform: translateY(0);
+        }
+
+        .example-text {
+            color: #6c757d;
+            font-style: italic;
+            font-size: 0.9em;
+            margin-top: 8px;
+        }
+
+        .copy-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .copy-btn:hover {
+            background: #218838;
+            transform: translateY(-1px);
+        }
+
+        .status {
+            background: #e3f2fd;
+            border: 1px solid #2196f3;
+            color: #1976d2;
+            padding: 10px;
+            border-radius: 8px;
+            margin-top: 10px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Smart FAQ Formatter</h1>
+            <p>Automatically detect questions and answers from your text and format them as HTML</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="section">
+                <div class="section-title">
+                    <div class="icon">📝</div>
+                    Paste Your FAQ Text
+                </div>
+                <textarea id="inputText" placeholder="Paste your FAQ text here. The tool will automatically detect questions and answers.
+
+Supported formats:
+1. Question?|Answer text here
+2. Question?\nAnswer text here
+3. Mixed format with questions ending with '?' and answers following
+
+Example:
+How do I control my truck?|Use arrow keys or WASD to drive
+Why is the game difficult?|The game uses realistic physics
+
+The tool is smart and will detect your format automatically!"></textarea>
+                <div class="example-text">Just paste your FAQ text - the tool will automatically detect questions (ending with '?') and their answers!</div>
+            </div>
+
+            <button class="format-btn" onclick="formatText()">🚀 Auto-Format FAQs</button>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="icon">📊</div>
+                    Detection Status
+                </div>
+                <div class="status" id="status">Ready to process your FAQ text...</div>
+            </div>
+
+            <div class="section">
+                <div class="section-title">
+                    <div class="icon">✨</div>
+                    Formatted HTML Output
+                </div>
+                <div class="output-area" id="output">Your formatted FAQ HTML will appear here...</div>
+                <button class="copy-btn" onclick="copyOutput()">📋 Copy All HTML</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function formatText() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const output = document.getElementById('output');
+            const status = document.getElementById('status');
+
+            if (!inputText) {
+                output.textContent = 'Please enter some FAQ text first.';
+                status.textContent = 'No text provided.';
+                status.style.background = '#ffebee';
+                status.style.borderColor = '#f44336';
+                status.style.color = '#c62828';
+                return;
+            }
+
+            try {
+                const faqs = parseSmartFAQ(inputText);
+                
+                if (faqs.length === 0) {
+                    output.textContent = 'No valid FAQ pairs found. Make sure your questions end with "?" and are followed by answers.';
+                    status.textContent = 'No FAQ pairs detected. Check your format.';
+                    status.style.background = '#fff3e0';
+                    status.style.borderColor = '#ff9800';
+                    status.style.color = '#f57c00';
+                    return;
+                }
+
+                let htmlOutput = '';
+                faqs.forEach(faq => {
+                    htmlOutput += generateFAQHTML(faq.question, faq.answer) + '\n\n';
+                });
+
+                output.textContent = htmlOutput.trim();
+                
+                status.textContent = `✅ Successfully processed ${faqs.length} FAQ item(s)!`;
+                status.style.background = '#e8f5e8';
+                status.style.borderColor = '#4caf50';
+                status.style.color = '#2e7d32';
+
+            } catch (error) {
+                output.textContent = 'Error processing FAQ text: ' + error.message;
+                status.textContent = 'Processing error occurred.';
+                status.style.background = '#ffebee';
+                status.style.borderColor = '#f44336';
+                status.style.color = '#c62828';
+            }
+        }
+
+        function parseSmartFAQ(text) {
+            const faqs = [];
+            
+            // Clean up the text - remove extra pipes and clean whitespace
+            text = text.replace(/\|\s*\|/g, '|').replace(/\|\s*$/gm, '').trim();
+            
+            // Split by lines and process
+            const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+            
+            let currentQuestion = null;
+            let currentAnswer = '';
+            
+            for (let line of lines) {
+                // Check if this line is a question (ends with ?)
+                if (line.includes('?')) {
+                    // If we have a pending Q&A pair, save it
+                    if (currentQuestion && currentAnswer.trim()) {
+                        faqs.push({
+                            question: currentQuestion.trim(),
+                            answer: currentAnswer.trim()
+                        });
+                    }
+                    
+                    // Handle pipe-separated format
+                    if (line.includes('|')) {
+                        const parts = line.split('|');
+                        currentQuestion = parts[0].trim();
+                        currentAnswer = parts.slice(1).join('|').trim();
+                    } else {
+                        currentQuestion = line.trim();
+                        currentAnswer = '';
+                    }
+                } else if (currentQuestion) {
+                    // This is part of the answer
+                    if (line.startsWith('|')) {
+                        line = line.substring(1).trim();
+                    }
+                    
+                    if (currentAnswer) {
+                        currentAnswer += ' ' + line;
+                    } else {
+                        currentAnswer = line;
+                    }
+                } else if (line.includes('|')) {
+                    // Handle cases where question doesn't end with ? but has pipe
+                    const parts = line.split('|');
+                    if (parts[0].trim()) {
+                        currentQuestion = parts[0].trim();
+                        currentAnswer = parts.slice(1).join('|').trim();
+                    }
+                }
+            }
+            
+            // Don't forget the last Q&A pair
+            if (currentQuestion && currentAnswer.trim()) {
+                faqs.push({
+                    question: currentQuestion.trim(),
+                    answer: currentAnswer.trim()
+                });
+            }
+            
+            return faqs;
+        }
+
+        function generateFAQHTML(question, answer) {
+            // Clean up question and answer
+            question = question.replace(/^["']|["']$/g, '').trim();
+            answer = answer.replace(/^["']|["']$/g, '').replace(/""/g, '"').trim();
+            
+            return `            <div class="faq-item">
+              <div class="faq-question">
+                <h3 style="font-size: medium;">${question}</h3>
+                <span class="faq-toggle">
+                  <svg class="chevron-icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M16.1795 3.26875C15.7889 2.87823 15.1558 2.87823 14.7652 3.26875L8.12078 9.91322C6.94952 11.0845 6.94916 12.9833 8.11996 14.155L14.6903 20.7304C15.0808 21.121 15.714 21.121 16.1045 20.7304C16.495 20.3399 16.495 19.7067 16.1045 19.3162L9.53246 12.7442C9.14194 12.3536 9.14194 11.7205 9.53246 11.33L16.1795 4.68297C16.57 4.29244 16.57 3.65928 16.1795 3.26875Z"
+                      fill="#fffafa"></path>
+                  </svg>
+                </span>
+              </div>
+              <div class="faq-answer">
+                ${answer}
+              </div>
+            </div>`;
+        }
+
+        function copyOutput() {
+            const output = document.getElementById('output');
+            const textToCopy = output.textContent;
+            
+            if (!textToCopy || textToCopy === 'Your formatted FAQ HTML will appear here...') {
+                alert('No content to copy. Please format some FAQs first.');
+                return;
+            }
+
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#20c997';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#28a745';
+                }, 2000);
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = textToCopy;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = '✅ Copied!';
+                btn.style.background = '#20c997';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '#28a745';
+                }, 2000);
+            });
+        }
+
+        // Auto-format when typing (with delay)
+        let formatTimeout;
+        document.getElementById('inputText').addEventListener('input', () => {
+            clearTimeout(formatTimeout);
+            formatTimeout = setTimeout(formatText, 2000);
+        });
+    </script>
+</body>
+</html>
