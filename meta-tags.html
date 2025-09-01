@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart FAQ Formatter</title>
+    <title>Smart META TAGS FORMAT</title>
     <style>
         * {
             margin: 0;
@@ -228,7 +228,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Smart FAQ Formatter</h1>
+            <h1>Smart META TAGS FORMAT</h1>
             <p>Automatically detect questions and answers from your text and format them as HTML</p>
         </div>
         
@@ -236,9 +236,9 @@
             <div class="section">
                 <div class="section-title">
                     <div class="icon">📝</div>
-                    Paste Your FAQ Text
+                    Paste Your META TAGS TEXT
                 </div>
-                <textarea id="inputText" placeholder="Paste your FAQ text here. The tool will automatically detect questions and answers.
+                <textarea id="inputText" placeholder="Paste your META TAGS TEXT here. The tool will automatically detect questions and answers.
 
 Supported formats:
 1. Question!|Answer text here
@@ -250,7 +250,7 @@ How do I control my truck!|Use arrow keys or WASD to drive
 Why is the game difficult!|The game uses realistic physics
 
 The tool is smart and will detect your format automatically!"></textarea>
-                <div class="example-text">Just paste your FAQ text - the tool will automatically detect questions (ending with '!') and their answers!</div>
+                <div class="example-text">Just paste your META TAGS TEXT - the tool will automatically detect questions (ending with '!') and their answers!</div>
             </div>
 
             <button class="format-btn" onclick="formatText()">🚀 Auto-Format meta</button>
@@ -260,7 +260,7 @@ The tool is smart and will detect your format automatically!"></textarea>
                     <div class="icon">📊</div>
                     Detection Status
                 </div>
-                <div class="status" id="status">Ready to process your FAQ text...</div>
+                <div class="status" id="status">Ready to process your META TAGS TEXT...</div>
             </div>
 
             <div class="section">
@@ -281,7 +281,7 @@ The tool is smart and will detect your format automatically!"></textarea>
             const status = document.getElementById('status');
 
             if (!inputText) {
-                output.textContent = 'Please enter some FAQ text first.';
+                output.textContent = 'Please enter some META TAGS TEXT first.';
                 status.textContent = 'No text provided.';
                 status.style.background = '#ffebee';
                 status.style.borderColor = '#f44336';
@@ -314,7 +314,7 @@ The tool is smart and will detect your format automatically!"></textarea>
                 status.style.color = '#2e7d32';
 
             } catch (error) {
-                output.textContent = 'Error processing FAQ text: ' + error.message;
+                output.textContent = 'Error processing META TAGS TEXT: ' + error.message;
                 status.textContent = 'Processing error occurred.';
                 status.style.background = '#ffebee';
                 status.style.borderColor = '#f44336';
