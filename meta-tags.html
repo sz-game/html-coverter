@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Smart META TAGS FORMAT</title>
+    <title>Meta Tags Generator</title>
     <style>
         * {
             margin: 0;
@@ -19,62 +19,60 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 800px;
             margin: 0 auto;
-            background: white;
+            background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            backdrop-filter: blur(10px);
         }
 
         .header {
-            background: linear-gradient(135deg, #2c3e50, #3498db);
-            color: white;
-            padding: 30px;
             text-align: center;
+            margin-bottom: 40px;
         }
 
         .header h1 {
-            font-size: 2.5em;
+            color: #333;
+            font-size: 2.5rem;
             margin-bottom: 10px;
-            font-weight: 300;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
+            color: #666;
+            font-size: 1.1rem;
         }
 
-        .main-content {
-            padding: 30px;
-        }
-
-        .section {
-            margin-bottom: 30px;
-            background: #f8f9fa;
+        .form-section {
+            background: #f8f9ff;
             border-radius: 15px;
-            padding: 25px;
-            border: 2px solid #e9ecef;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 2px solid #e8ecff;
             transition: all 0.3s ease;
         }
 
-        .section:hover {
+        .form-section:hover {
             border-color: #667eea;
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.1);
         }
 
         .section-title {
-            font-size: 1.4em;
-            color: #2c3e50;
+            color: #333;
+            font-size: 1.3rem;
             margin-bottom: 15px;
-            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .icon {
+        .section-icon {
             width: 24px;
             height: 24px;
             background: linear-gradient(135deg, #667eea, #764ba2);
@@ -83,143 +81,163 @@
             align-items: center;
             justify-content: center;
             color: white;
-            font-size: 0.8em;
+            font-weight: bold;
         }
 
-        textarea, .output-area {
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+
+        input[type="text"], textarea {
             width: 100%;
-            min-height: 200px;
-            padding: 20px;
-            border: 2px solid #dee2e6;
-            border-radius: 12px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            line-height: 1.6;
+            padding: 15px;
+            border: 2px solid #e0e6ff;
+            border-radius: 10px;
+            font-size: 16px;
             transition: all 0.3s ease;
-            resize: vertical;
+            background: white;
         }
 
-        textarea:focus {
+        input[type="text"]:focus, textarea:focus {
             outline: none;
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            transform: translateY(-1px);
         }
 
-        .output-area {
-            background: #ffffff;
-            border: 2px solid #28a745;
-            overflow-y: auto;
-            white-space: pre-wrap;
-            min-height: 300px;
+        textarea {
+            min-height: 100px;
+            resize: vertical;
         }
 
-        .format-btn {
+        .char-count {
+            text-align: right;
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .generate-btn {
+            width: 100%;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1em;
+            padding: 18px;
+            border-radius: 12px;
+            font-size: 1.1rem;
             font-weight: 600;
             cursor: pointer;
             transition: all 0.3s ease;
-            display: block;
-            margin: 20px auto;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            margin: 30px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
-        .format-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        .generate-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.3);
         }
 
-        .format-btn:active {
-            transform: translateY(0);
+        .generate-btn:active {
+            transform: translateY(-1px);
         }
 
-        .example-text {
-            color: #6c757d;
-            font-style: italic;
-            font-size: 0.9em;
-            margin-top: 8px;
+        .output-section {
+            background: #1a1a2e;
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 2px solid #2d2d44;
+        }
+
+        .output-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .output-title {
+            color: #fff;
+            font-size: 1.2rem;
+            font-weight: 600;
         }
 
         .copy-btn {
-            background: #28a745;
+            background: #4ade80;
             color: white;
             border: none;
             padding: 10px 20px;
             border-radius: 8px;
             cursor: pointer;
-            font-size: 0.9em;
-            margin: 10px 10px 0 0;
+            font-weight: 600;
             transition: all 0.3s ease;
-            display: inline-block;
         }
 
         .copy-btn:hover {
-            background: #218838;
-            transform: translateY(-1px);
+            background: #22c55e;
+            transform: translateY(-2px);
         }
 
-        .back-to-top-btn {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            font-size: 1.5em;
-            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.3);
-            transition: all 0.3s ease;
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1000;
+        .copy-btn.copied {
+            background: #059669;
         }
 
-        .back-to-top-btn.visible {
-            opacity: 1;
-            visibility: visible;
+        .code-output {
+            background: #0f0f1a;
+            border: 1px solid #2d2d44;
+            border-radius: 10px;
+            padding: 20px;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-height: 300px;
+            overflow-y: auto;
         }
 
-        .back-to-top-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+        .hidden {
+            display: none;
         }
 
-        .status {
-            background: #e3f2fd;
-            border: 1px solid #2196f3;
-            color: #1976d2;
-            padding: 10px;
-            border-radius: 8px;
-            margin-top: 10px;
-            font-size: 0.9em;
+        .tips {
+            background: #fff7ed;
+            border: 2px solid #fed7aa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .tips h3 {
+            color: #ea580c;
+            margin-bottom: 10px;
+        }
+
+        .tips ul {
+            color: #7c2d12;
+            padding-left: 20px;
+        }
+
+        .tips li {
+            margin-bottom: 5px;
         }
 
         @media (max-width: 768px) {
             .container {
-                margin: 10px;
-                border-radius: 15px;
-            }
-            
-            .header {
                 padding: 20px;
+                margin: 10px;
             }
             
             .header h1 {
-                font-size: 2em;
+                font-size: 2rem;
             }
             
-            .main-content {
-                padding: 20px;
-            }
-            
-            .section {
+            .form-section {
                 padding: 20px;
             }
         }
@@ -228,225 +246,138 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>Smart META TAGS FORMAT</h1>
-            <p>Automatically detect questions and answers from your text and format them as HTML</p>
+            <h1>🏷️ Meta Tags Generator</h1>
+            <p>Sirf Title aur Description tags banayein</p>
         </div>
-        
-        <div class="main-content">
-            <div class="section">
-                <div class="section-title">
-                    <div class="icon">📝</div>
-                    Paste Your META TAGS TEXT
-                </div>
-                <textarea id="inputText" placeholder="Paste your META TAGS TEXT here. The tool will automatically detect questions and answers.
 
-Supported formats:
-1. Question!|Answer text here
-2. Question!\nAnswer text here
-3. Mixed format with questions ending with '!' and answers following
-
-Example:
-How do I control my truck!|Use arrow keys or WASD to drive
-Why is the game difficult!|The game uses realistic physics
-
-The tool is smart and will detect your format automatically!"></textarea>
-                <div class="example-text">Just paste your META TAGS TEXT - the tool will automatically detect questions (ending with '!') and their answers!</div>
+        <div class="form-section">
+            <div class="section-title">
+                <div class="section-icon">1</div>
+                Page Title
             </div>
+            <label for="pageTitle">Website/Page Title:</label>
+            <input type="text" id="pageTitle" placeholder="e.g., Play 1v1.LOL Unblocked Online Free – Build & Shoot!" maxlength="60">
+            <div class="char-count" id="titleCount">0/60 characters</div>
+        </div>
 
-            <button class="format-btn" onclick="formatText()">🚀 Auto-Format meta</button>
-
-            <div class="section">
-                <div class="section-title">
-                    <div class="icon">📊</div>
-                    Detection Status
-                </div>
-                <div class="status" id="status">Ready to process your META TAGS TEXT...</div>
+        <div class="form-section">
+            <div class="section-title">
+                <div class="section-icon">2</div>
+                Meta Description
             </div>
+            <label for="metaDescription">Meta Description:</label>
+            <textarea id="metaDescription" placeholder="e.g., Play 1v1 LOL online Build, battle, and shoot in real-time PvP. Master your aim, reflexes, and tactics in this free multiplayer building shooter." maxlength="160"></textarea>
+            <div class="char-count" id="descCount">0/160 characters</div>
+        </div>
 
-            <div class="section">
-                <div class="section-title">
-                    <div class="icon">✨</div>
-                    Formatted HTML Output
-                <button class="copy-btn" onclick="copyOutput()">📋 Copy All HTML</button>
-                </div>
-                <div class="output-area" id="output">Your formatted FAQ HTML will appear here...</div>
+        <button type="button" class="generate-btn" onclick="generateTags()">
+            ✨ Generate Meta Tags
+        </button>
+
+        <div class="output-section hidden" id="outputSection">
+            <div class="output-header">
+                <div class="output-title">📋 Generated Meta Tags</div>
+                <button class="copy-btn" id="copyBtn" onclick="copyToClipboard()">Copy Code</button>
             </div>
+            <div class="code-output" id="codeOutput"></div>
+        </div>
+
+        <div class="tips">
+            <h3>💡 Pro Tips:</h3>
+            <ul>
+                <li><strong>Title:</strong> 50-60 characters rakhen, important keywords pehle rakhein</li>
+                <li><strong>Description:</strong> 150-160 characters, compelling aur informative ho</li>
+                <li>Search engines me better ranking ke liye unique content rakhein</li>
+            </ul>
         </div>
     </div>
 
     <script>
-        function formatText() {
-            const inputText = document.getElementById('inputText').value.trim();
-            const output = document.getElementById('output');
-            const status = document.getElementById('status');
+        // Character counting
+        document.getElementById('pageTitle').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('titleCount').textContent = count + '/60 characters';
+            document.getElementById('titleCount').style.color = count > 60 ? '#ef4444' : '#888';
+        });
 
-            if (!inputText) {
-                output.textContent = 'Please enter some META TAGS TEXT first.';
-                status.textContent = 'No text provided.';
-                status.style.background = '#ffebee';
-                status.style.borderColor = '#f44336';
-                status.style.color = '#c62828';
+        document.getElementById('metaDescription').addEventListener('input', function() {
+            const count = this.value.length;
+            document.getElementById('descCount').textContent = count + '/160 characters';
+            document.getElementById('descCount').style.color = count > 160 ? '#ef4444' : '#888';
+        });
+
+        function generateTags() {
+            const title = document.getElementById('pageTitle').value.trim();
+            const description = document.getElementById('metaDescription').value.trim();
+
+            if (!title) {
+                alert('Title field zaruri hai!');
                 return;
             }
 
-            try {
-                const meta = parseSmartFAQ(inputText);
-                
-                if (meta.length === 0) {
-                    output.textContent = 'No valid FAQ pairs found. Make sure your questions end with "!" and are followed by answers.';
-                    status.textContent = 'No FAQ pairs detected. Check your format.';
-                    status.style.background = '#fff3e0';
-                    status.style.borderColor = '#ff9800';
-                    status.style.color = '#f57c00';
-                    return;
-                }
-
-                let htmlOutput = '';
-                meta.forEach(faq => {
-                    htmlOutput += generateFAQHTML(faq.question, faq.answer) + '\n\n';
-                });
-
-                output.textContent = htmlOutput.trim();
-                
-                status.textContent = `✅ Successfully processed ${meta.length} FAQ item(s)!`;
-                status.style.background = '#e8f5e8';
-                status.style.borderColor = '#4caf50';
-                status.style.color = '#2e7d32';
-
-            } catch (error) {
-                output.textContent = 'Error processing META TAGS TEXT: ' + error.message;
-                status.textContent = 'Processing error occurred.';
-                status.style.background = '#ffebee';
-                status.style.borderColor = '#f44336';
-                status.style.color = '#c62828';
-            }
-        }
-
-        function parseSmartFAQ(text) {
-            const meta = [];
-            
-            // Clean up the text - remove extra pipes and clean whitespace
-            text = text.replace(/\|\s*\|/g, '|').replace(/\|\s*$/gm, '').trim();
-            
-            // Split by lines and process
-            const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
-            
-            let currentQuestion = null;
-            let currentAnswer = '';
-            
-            for (let line of lines) {
-                // Check if this line is a question (ends with !)
-                if (line.includes('!')) {
-                    // If we have a pending Q&A pair, save it
-                    if (currentQuestion && currentAnswer.trim()) {
-                        meta.push({
-                            question: currentQuestion.trim(),
-                            answer: currentAnswer.trim()
-                        });
-                    }
-                    
-                    // Handle pipe-separated format
-                    if (line.includes('|')) {
-                        const parts = line.split('|');
-                        currentQuestion = parts[0].trim();
-                        currentAnswer = parts.slice(1).join('|').trim();
-                    } else {
-                        currentQuestion = line.trim();
-                        currentAnswer = '';
-                    }
-                } else if (currentQuestion) {
-                    // This is part of the answer
-                    if (line.startsWith('|')) {
-                        line = line.substring(1).trim();
-                    }
-                    
-                    if (currentAnswer) {
-                        currentAnswer += ' ' + line;
-                    } else {
-                        currentAnswer = line;
-                    }
-                } else if (line.includes('|')) {
-                    // Handle cases where question doesn't end with ! but has pipe
-                    const parts = line.split('|');
-                    if (parts[0].trim()) {
-                        currentQuestion = parts[0].trim();
-                        currentAnswer = parts.slice(1).join('|').trim();
-                    }
-                }
-            }
-            
-            // Don't forget the last Q&A pair
-            if (currentQuestion && currentAnswer.trim()) {
-                meta.push({
-                    question: currentQuestion.trim(),
-                    answer: currentAnswer.trim()
-                });
-            }
-            
-            return meta;
-        }
-
-        function generateFAQHTML(question, answer) {
-            // Clean up question and answer
-            question = question.replace(/^["']|["']$/g, '').trim();
-            answer = answer.replace(/^["']|["']$/g, '').replace(/""/g, '"').trim();
-            
-            return `           <title>${question}</title>
-  <meta name="description"
-    content="${answer}">`;
-        }
-
-        function copyOutput() {
-            const output = document.getElementById('output');
-            const textToCopy = output.textContent;
-            
-            if (!textToCopy || textToCopy === 'Your formatted FAQ HTML will appear here...') {
-                alert('No content to copy. Please format some meta first.');
+            if (!description) {
+                alert('Meta description field zaruri hai!');
                 return;
             }
 
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                btn.style.background = '#20c997';
+            let output = '';
+            
+            // Title tag
+            output += '<title>' + escapeHtml(title) + '</title>\n';
+            
+            // Meta description
+            output += '<meta name="description" content="' + escapeHtml(description) + '">';
+
+            document.getElementById('codeOutput').textContent = output;
+            document.getElementById('outputSection').classList.remove('hidden');
+            
+            // Smooth scroll to output
+            document.getElementById('outputSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function copyToClipboard() {
+            const codeOutput = document.getElementById('codeOutput').textContent;
+            navigator.clipboard.writeText(codeOutput).then(function() {
+                const copyBtn = document.getElementById('copyBtn');
+                const originalText = copyBtn.textContent;
+                copyBtn.textContent = '✓ Copied!';
+                copyBtn.classList.add('copied');
                 
-                // Clear the input field
-                document.getElementById('inputText').value = '';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '#28a745';
+                setTimeout(function() {
+                    copyBtn.textContent = originalText;
+                    copyBtn.classList.remove('copied');
                 }, 2000);
-            }).catch(() => {
+            }).catch(function() {
                 // Fallback for older browsers
                 const textArea = document.createElement('textarea');
-                textArea.value = textToCopy;
+                textArea.value = codeOutput;
                 document.body.appendChild(textArea);
                 textArea.select();
                 document.execCommand('copy');
                 document.body.removeChild(textArea);
                 
-                const btn = document.querySelector('.copy-btn');
-                const originalText = btn.textContent;
-                btn.textContent = '✅ Copied!';
-                btn.style.background = '#20c997';
-                
-                // Clear the input field
-                document.getElementById('inputText').value = '';
-                
-                setTimeout(() => {
-                    btn.textContent = originalText;
-                    btn.style.background = '#28a745';
+                const copyBtn = document.getElementById('copyBtn');
+                copyBtn.textContent = '✓ Copied!';
+                setTimeout(function() {
+                    copyBtn.textContent = 'Copy Code';
                 }, 2000);
             });
         }
 
-        // Auto-format when typing (with delay)
-        let formatTimeout;
-        document.getElementById('inputText').addEventListener('input', () => {
-            clearTimeout(formatTimeout);
-            formatTimeout = setTimeout(formatText, 2000);
+        // Enter key support
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && e.ctrlKey) {
+                generateTags();
+            }
         });
     </script>
 </body>
